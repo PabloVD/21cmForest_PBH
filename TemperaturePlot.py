@@ -11,7 +11,7 @@ from Source.functions import *
 
 
 MassPBH_vals = [1., 10.,100.]
-fpbh_vals = [1.e-2,1.e-3]
+fpbh_vals = [1.e-3, 1.e-2]
 
 lins = ["-","--",":"]
 cols = ["c","m","g"]
@@ -32,6 +32,10 @@ for MM, MassPBH in enumerate(MassPBH_vals):
         file = np.loadtxt("21cmFiles/"+ThermalHisF,unpack=True)
         ax_T.plot(file[0],file[2],color=cols[ff],linestyle=lins[MM],lw=1.)#,linewidth=widths[MM],alpha=0.5)
 
+        #ThermalHisF = 'ThermalHistory_Mpbh_{:.1e}_fpbh_{:.1e}_Xi_30_Tmin_1.000e+04_Rfmp_15_chiUV_1.00e+56_Nalpha_4.00e+03.dat'.format(MassPBH, fpbh)
+        #file = np.loadtxt("21cmFiles/"+ThermalHisF,unpack=True)
+        #ax_T.plot(file[0],file[2],color=cols[ff],linestyle=lins[MM],lw=4.,alpha=0.5)#,linewidth=widths[MM],alpha=0.5)
+
 #cdmfile = 'ThermalHistory_Mpbh_1.0e+00_fpbh_1.0e-08_Xi_30_Tmin_1.000e+04_Rfmp_15_chiUV_1.00e+30_Nalpha_4.00e+03.dat'
 #file = np.loadtxt("21cmFiles/"+cdmfile,unpack=True)
 #ax_T.plot(file[0],file[2],color=colcdm,alpha=0.1,lw=3.)
@@ -46,6 +50,7 @@ for MM, MassPBH in enumerate(MassPBH_vals):
 ax_T.set_ylabel("T [K]")
 ax_T.set_xlabel("z")
 ax_T.set_yscale("log")
+ax_T.set_xscale("log")
 #ax_T.set_xlim([file[0][-1],file[0][0]])
 ax_T.set_xlim(10.,file[0][0])
 ax_T.set_ylim(2.,100.)
