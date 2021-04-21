@@ -67,12 +67,9 @@ tauGP = 3.*c**3.*Aalpha*n0_h/(8.*np.pi*nualpha**3.*H0*np.sqrt(Omega_m))*10.**(3.
 
 #----- Precision Constants -----#
 
+# Number of bins of halo masses
 nummass = 50
+# Number of bins of optical depth values
 numtau = 50
+# Number of bins of the impact parameter
 numalf = 300
-
-"""
-nummass = 20
-numtau = 25
-numalf = 100
-"""

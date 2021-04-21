@@ -2,7 +2,7 @@
 Cosmological functions
 Pablo Villanueva Domingo
 Started: October 2018
-Last update: March 2021
+Last update: April 2021
 """
 
 import os
@@ -71,10 +71,10 @@ def Tvir(M,z):  # K, B&L tiene 1.98, Shimabukuro tiene 1.32, un factor 3/2 menor
 def Mmin(Tvir,z):       # Msun/h, tvir in K
     return 1.e8*(Omega_m*Deltac(z)/(Omz(z)*18.*np.pi**2.))**(-1./2.)*(Tvir/1.98e4)**(3./2.)*((1.+z)/10.)**(-3./2.)
 
-def con(M,z,model="diemer19"):  # Concentration parameter
-    if model=="bullock01":      # Employs fit from Bullock et al. 2001, to match at z=0
+def con(M,z,model="ishiyama20"):  # Concentration parameter
+    if model=="Bullock2001":      # Employs fit from Bullock et al. 2001, to match at z=0
         return 9./(1.+z)*(M/1.5e13)**(-0.13)
-    else:     # Employs fit from Diemer & Joyce 2019
+    else:     # Employs fit from colossus. Default here is taken as "ishiyama20"
         return concentration(M, "vir", z=z, model=model)
 
 #--- DENSITY PROFILES ---#

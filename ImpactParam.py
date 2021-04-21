@@ -46,6 +46,8 @@ if __name__ == "__main__":
     zvec = [10, 15]
     for iz, z in enumerate(zvec):
 
+        logMvec = np.linspace(np.log(MJeans(z,Tk_ad(z))),np.log(Mmin(1.e4,z)),num=nummass)
+        Mvec = np.exp(logMvec)
         imp = MaxImpactParam(z)
         np.save("Outputs/max_impact_param_z_{:.1f}".format(z)+"_nummass_"+str(nummass)+"_numtau_"+str(numtau)+"_numalf_"+str(numalf),imp)
 

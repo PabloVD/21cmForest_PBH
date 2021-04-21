@@ -2,12 +2,15 @@
 Plot the bounds on the fraction of PBHs as DM from the 21 cm forest absorbers
 Author: Pablo Villanueva Domingo
 Started: March 2021
-Last update: March 2021
+Last update: April 2021
 """
 import matplotlib.pyplot as plt
 from scipy import interpolate, ndimage
 from matplotlib.ticker import AutoMinorLocator, MultipleLocator, LogLocator, NullFormatter
+from matplotlib.lines import Line2D
 from Source.functions import *
+import matplotlib as mpl
+mpl.rcParams.update({'font.size': 14})
 
 
 # Plot contours for the upper limits on the abundance
@@ -16,7 +19,7 @@ def PlotBound(z, MassPBH_vals, fpbh_vals, zetax, ax, lw=1., alph=1., col="purple
     # Employ Rbf interpolation
     use_rbf = 1
     # Size of the smoothing filter
-    sigma_filter = 3.
+    sigma_filter = 1.5
 
     # Initialize array with a random big number
     bounds1 = np.full((len(MassPBH_vals), len(fpbh_vals)),1.e3)
@@ -30,11 +33,8 @@ def PlotBound(z, MassPBH_vals, fpbh_vals, zetax, ax, lw=1., alph=1., col="purple
             bounds1[im,jf] = cond1[jf]
             bounds2[im,jf] = cond2[jf]
 
-    #plt.imshow(np.transpose(bounds1))
-    #plt.show()
-    #exit()
-
     xx, yy = np.meshgrid(MassPBH_vals, fpbh_vals)
+    # This is for plotting the points of the grid
     #ax.scatter(xx,yy,c="k",alpha=0.7)
 
     # Interpolate
@@ -63,50 +63,53 @@ def PlotBound(z, MassPBH_vals, fpbh_vals, zetax, ax, lw=1., alph=1., col="purple
 
 if __name__ == "__main__":
 
-    # 1 for using heating from 21cmFAST, 0 for assuming adiabatic cooling
-    use_21cmFAST = 1
-    # 1 for plotting
-    do_plots = 0
-    # 1 for plotting the derivative of the number of absorbers respect to tau
-    plot_derivative = 0
     # Heating from astrophysical sources
     # No astro heating: 1.e30
     # Astro heating: 1.e55, 1.e56
-    zetax = 1.e30
+    zetaxs = [1.e30, 1.e55, 1.e56]
+    cols = ["b", "purple", "r"]
 
-    # NO ASTRO
-    MassPBH_vals = np.logspace(-1, 3, 16)
-    fpbh_vals = np.logspace(-5, 0 ,20)
-
-    # ASTRO HEAT
-    #MassPBH_vals = np.logspace(-1, 3, 10)
-    #fpbh_vals = np.logspace(-5, 0 , 10)
+    MassPBH_vals = np.logspace(-1, 3, 24)
+    fpbh_vals = np.logspace(-5, 0 , 30)
 
     zvec = [10., 15.]
-    #zvec = [15.]
     lws = [1., 4.]
     alphs = [1., 0.5]
 
-    fig, ax = plt.subplots()
-
     for i, z in enumerate(zvec):
-        PlotBound(z, MassPBH_vals, fpbh_vals, zetax, ax, lws[i], alphs[i], "b")
 
-    zetax = 1.e55
-    for i, z in enumerate(zvec):
-        PlotBound(z, MassPBH_vals, fpbh_vals, zetax, ax, lws[i], alphs[i], "purple")
+        fig, ax = plt.subplots()
 
-    zetax = 1.e56
-    for i, z in enumerate(zvec):
-        PlotBound(z, MassPBH_vals, fpbh_vals, zetax, ax, lws[i], alphs[i], "r")
+        for j, zetax in enumerate(zetaxs):
+            PlotBound(z, MassPBH_vals, fpbh_vals, zetax, ax, 1., 1., cols[j])
+            #PlotBound(z, MassPBH_vals, fpbh_vals, zetax, ax, lws[i], alphs[i], cols[j])
 
-    ax.set_ylabel(r"$f_{\rm PBH}$")
-    ax.set_xlabel(r"$M_{\rm PBH} \; [M_\odot$]")
+        # Accretion line constraint
+        #ax.plot(MassPBH_vals, 0.1*(MassPBH_vals/1.e3)**(-1.59), "c--")
+        
+        # Shot noise line constraint
+        #ax.plot(MassPBH_vals, 1.e-2*MassPBH_vals**(-1.), "m--")
 
-    ax.set_xscale("log")
-    ax.set_yscale("log")
+        ax.set_ylabel(r"$f_{\rm PBH}$")
+        ax.set_xlabel(r"$M_{\rm PBH} \; [M_\odot$]")
 
-    ax.grid(True, linestyle=":", zorder=1.e-2, which='major')
+        ax.set_xscale("log")
+        ax.set_yscale("log")
 
-    fig.savefig("Plots/bounds_z_"+str(z)+"_zetax_{:.2e}.pdf".format(zetax), bbox_inches='tight')
-    plt.show()
+        customleg, customlabs = [], []
+        customleg.append(Line2D([0], [0], color="k", lw=2, linestyle="-", label=r"$0.01<\tau<0.03$"))
+        customleg.append(Line2D([0], [0], color="k", lw=2, linestyle=":", label=r"$\tau>0.03$"))
+
+        for j, zetax in enumerate(zetaxs):
+            lab = r"$L_X/{\rm SFR}=$"+scinot(10.**(np.log10(zetax)-16))+r" erg s$^{-1}$M$_\odot^{-1}$yr"
+            if zetax==1.e30:    lab = "No astrophysical heating"
+            customleg.append(Line2D([0], [0], color=cols[j], lw=2, linestyle="-",label=lab))
+        ax.legend(handles=customleg, loc="lower left",fontsize=10)
+
+        ax.set_title(r"$z=${:.0f}".format(z))
+        ax.set_ylim(1.e-5,1.)
+        ax.grid(True, linestyle=":", zorder=1.e-2, which='major')
+
+        fig.savefig("Plots/bounds_z_"+str(z)+".pdf", bbox_inches='tight')
+        #fig.savefig("Plots/bounds_z_"+str(z)+"_zetax_{:.2e}.pdf".format(zetax), bbox_inches='tight')
+    #plt.show()

@@ -2,7 +2,7 @@
 Main script to compute the number of absorbers of the 21 cm forest
 Author: Pablo Villanueva Domingo
 Started: October 2018
-Last update: March 2021
+Last update: April 2021
 """
 
 import matplotlib.pyplot as plt
@@ -14,7 +14,6 @@ import matplotlib as mpl
 from Source.functions import *
 from ImpactParam import MaxImpactParam
 from AbundanceBounds import PlotBound
-
 mpl.rcParams.update({'font.size': 14})
 
 
@@ -24,6 +23,7 @@ cols = ["c","m","g"]
 widths = [2.,1.,0.5]
 colcdm = "b"
 
+# Minimum values for two ranges of the optical depth
 taumin1 = 0.01
 taumin2 = 0.03
 
@@ -99,7 +99,7 @@ def Absorbers_Routine(zvec, fpbh_vals, MassPBH, use_21cmFAST, zetax, do_plots, p
 
     if do_plots:
         if plot_derivative:
-            fig_cum, (ax_cum, ax_der) = plt.subplots(2,1,sharex=True)
+            fig_cum, (ax_cum, ax_der) = plt.subplots(2,1,sharex=True,figsize=(10,10))
             fig_cum.subplots_adjust(hspace=0,wspace=0)
             fig_cum.subplots_adjust(bottom=0.1, right=0.5, top=0.9)
         else:
@@ -174,6 +174,8 @@ def Absorbers_Routine(zvec, fpbh_vals, MassPBH, use_21cmFAST, zetax, do_plots, p
         if use_21cmFAST:
             ax_cum.set_title(r"$M_{PBH}=$"+scinot(MassPBH)+"$\, M_\odot$")
 
+        ax_cum.set_ylim(1.e-2,2.5e2)
+
 
         fig_cum.savefig("Plots/absorbers_pbh_"+sufix+".pdf", bbox_inches='tight')
         #plt.show()
@@ -188,28 +190,30 @@ if __name__ == "__main__":
     # 1 for using heating from 21cmFAST, 0 for assuming adiabatic cooling
     use_21cmFAST = 1
     # 1 for plotting
-    do_plots = 0
+    do_plots = 1
     # 1 for plotting the derivative of the number of absorbers respect to tau
     plot_derivative = 0
     # 1 for computing bounds (equivalent to call AbundanceBounds.py separately)
-    compute_bounds = 1
+    compute_bounds = 0
     # Heating from astrophysical sources
     # No astro heating: 1.e30
     # Astro heating: 1.e55, 1.e56
     zetax = 1.e30
 
-    # FOR PLOTS
+    # For plotting the number of absorbers
     MassPBH_vals = [1.,10.,100.,1000.]
     fpbh_vals = [1.e-3,1.e-2]
+    #MassPBH_vals = [1.]
 
-    # FOR COMPUTING BOUNDS (dense grid)
-    MassPBH_vals = np.logspace(-1, 3, 16)
-    fpbh_vals = np.logspace(-5, 0 ,20)
+    # For computing the bounds (dense grid)
+    #MassPBH_vals = np.logspace(-1, 3, 24)
+    #fpbh_vals = np.logspace(-5, 0, 30)
 
-    # FOR COMPUTING BOUNDS (no so dense grid)
+    # For computing the bounds (not so dense grid)
     #MassPBH_vals = np.logspace(-1, 3, 10)
     #fpbh_vals = np.logspace(-5, 0 , 10)
 
+    # Redshifts and corresponding plotting options
     zvec = [10., 15.]
     lws = [1., 4.]
     alphs = [1., 0.5]

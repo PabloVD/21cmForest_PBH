@@ -2,7 +2,7 @@
 Script to interpolate the temperature from 21cmFAST simulations at a given redsfhit as a function of the PBH parameters
 Author: Pablo Villanueva Domingo
 Started: March 2021
-Last update: March 2021
+Last update: April 2021
 """
 
 import matplotlib.pyplot as plt
@@ -18,7 +18,7 @@ mpl.rcParams.update({'font.size': 14})
 
 # Isotherm which passes through f_pbh=1.
 def fpbh_isotherm(Mpbh):
-    a, b = -1.566, 0.
+    a, b = -1.59, 0.
     return 10.**(b)*Mpbh**a
 
 # Employ Rbf interpolation rather than standard interp2d
@@ -34,7 +34,8 @@ MassPBH_vals = [1.0, 10., 100., 1000.]
 #fpbh_vals = [1.e-5, 5.e-5, 1.e-4, 5.e-4, 1.e-3, 5.e-3, 1.e-2, 5.e-2, 1.e-1, 5.e-1, 1.]
 fpbh_vals = [1.e-5, 1.e-4, 1.e-3, 1.e-2, 1.e-1, 1.]
 
-zvec = [8., 10., 15.]
+zvec = [8., 10., 15., 20.]
+#zvec = [25.]
 #zvec = [10.]
 
 for z in zvec:
@@ -49,6 +50,7 @@ for z in zvec:
             tempmatrix[im,jf] = Temp(z)
 
     xx, yy = np.meshgrid(MassPBH_vals, fpbh_vals)
+    # This is for plotting the points of the grid
     #plt.scatter(xx,yy,c="k",alpha=0.7)
 
     # Interpolate
