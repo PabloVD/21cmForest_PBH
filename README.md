@@ -1,16 +1,16 @@
 # 21cmForest_PBH
 
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.4569964.svg)](https://zenodo.org/record/4569964) [![arXiv](https://img.shields.io/badge/arXiv-2006.14305-B31B1B.svg)](http://arxiv.org/abs/2006.14305)
+[![arXiv](https://img.shields.io/badge/arXiv-2104.10695-B31B1B.svg)](http://arxiv.org/abs/2104.10695) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4707447.svg)](https://doi.org/10.5281/zenodo.4707447)
 
 Python codes for computing the number of absorption features of the 21 cm forest in scenarios with Primordial Black Holes as Dark Matter.
 
-See the paper [arXiv:2104.XXXX](https://arxiv.org/abs/2104.XXXX) for more details.
+See the paper [arXiv:2104.10695](https://arxiv.org/abs/2104.10695) for more details.
 
 ![sample bounds](bounds_z_10.png)
 
 ## Description of the code
 
-The program computes the number of absorbers expected in Cold Dark Matter (CDM) and Primordial Black Holes (PBH) cosmologies. For that, the Intergalactic Medium (IGM) temperature is required. The code makes use of the temperature computed from semianalytic simulations carried out with [21cmFAST](https://github.com/andreimesinger/21cmFAST) (see [arXiv:1003.3878](https://arxiv.org/abs/1003.3878), [arXiv:1809.08995](https://arxiv.org/abs/1809.08995)). The global outputs for several realizations, which include the temperature evolution, are included in the folder `21cmFiles`.
+The program computes the number of absorbers expected in Cold Dark Matter (CDM) and Primordial Black Holes (PBH) cosmologies. For that, the Intergalactic Medium (IGM) temperature is required. The code makes use of the temperature computed from semianalytic simulations carried out with [21cmFAST](https://github.com/andreimesinger/21cmFAST) ([arXiv:1003.3878](https://arxiv.org/abs/1003.3878)). The global outputs for several realizations, which include the temperature evolution, are included in the folder `21cmFiles`.
 
 The main scripts are the following:
 
@@ -38,7 +38,7 @@ In the folder `Source`, several auxiliary routines are defined:
 
 ## Requisites
 
-The code is written in Python3, and makes use of several Python libraries, which are
+The code is written in Python3, and makes use of several Python libraries, which are:
 
 * numpy
 * matplotlib
@@ -49,7 +49,7 @@ The package for cosmological computations [Colossus](https://bdiemer.bitbucket.i
 
 ## Citation
 
-If you use the code, please link this repository, and cite [arXiv:2104.XXXX](https://arxiv.org/abs/2104.XXXX) and the DOI [10.5281/zenodo.4569964](https://zenodo.org/record/4569964).
+If you use the code, please link this repository, and cite [arXiv:2104.10695](https://arxiv.org/abs/2104.10695) and the DOI [10.5281/zenodo.4707447](https://doi.org/10.5281/zenodo.4707447).
 
 ## Contact
 
