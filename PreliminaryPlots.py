@@ -9,37 +9,41 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from Source.functions import *
 
-
+# Redshifts where computations are evaluated
 zvec = [10, 15]
-
-xvec = np.logspace(-3,0,200)    # r/Rvir
-#Ms = [1.e4,1.e5,1.e6,1.e7,1.e8] # Msun/h
+# Halo masses Msun/h
 Ms = [1.e4,1.e6,1.e8] # Msun/h
+# r/Rvir, radius array normalized to the virial radius
+xvec = np.logspace(-3,0,200)
+
 colors = ["c","m","b","g","r"]
 lines = ["-",":"]
 
-
+# Define different figures
 fig_rho, (ax_rho) = plt.subplots(1,1)
 fig_Ts, (ax_Ts) = plt.subplots(1,1)
 fig_tau, (ax_tau) = plt.subplots(1,1)
 
 for iz, z in enumerate(zvec):
-
     for mm, M in enumerate(Ms):
-        y = con(M,z)
-        r = xvec*Rvir(M,z)
-        Tk = Tvir(M,z)
-        nH = rho_gas(M,z,y,r)*(1.-Y_He)/m_p
-        Tspin = Ts(z,nH,Tk)
 
-        logaloverRv = np.linspace(np.log(1.e-2),0.,num=200)    # al/Rvir(M,z)
+        # Get several quantities
+        y = con(M,z)                            # Halo concetration
+        r = xvec*Rvir(M,z)                      # Radius array
+        Tk = Tvir(M,z)                          # Kinetic temperature
+        nH = rho_gas(M,z,y,r)*(1.-Y_He)/m_p     # Hydrogen number density
+        Tspin = Ts(z,nH,Tk)                     # Spin temperature
+
+        # Create array of alpha/Rvir(M,z)
+        logaloverRv = np.linspace(np.log(1.e-2),0.,num=200)
         aloverRv = np.exp(logaloverRv)
         OpDepArr = []
+        # For each impact parameter, compute the optical depth
         for a in aloverRv:
             OpDepArr.append(OptDepth21(M,z,y,a*Rvir(M,z)))
 
-        #ax_rho.loglog(xvec, rho_nfw(M,z,y,r)/rho_c_z(z), linestyle=":", color=colors[mm])
-        ax_rho.loglog(xvec, rho_gas(M,z,y,r)/rho_c_z(z), linestyle=lines[iz], color=colors[mm])
+        #ax_rho.loglog(xvec, rho_nfw(M,z,y,r)/rho_c_z(z), linestyle=":", color=colors[mm])      # DM density
+        ax_rho.loglog(xvec, rho_gas(M,z,y,r)/rho_c_z(z), linestyle=lines[iz], color=colors[mm]) # Gas density
         ax_Ts.loglog(xvec, Tspin, linestyle=lines[iz], color=colors[mm])
         ax_Ts.loglog([xvec[0],xvec[-1]],[Tk,Tk],color=colors[mm],linestyle="--")
         ax_tau.loglog(aloverRv, OpDepArr, linestyle=lines[iz], color=colors[mm])

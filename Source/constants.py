@@ -7,7 +7,7 @@ Last update: March 2021
 
 import numpy as np
 
-#----- Constants (from 21cmFAST) -----#
+#----- Constants -----#
 
 # Misc
 hplanck = 6.62606896e-27    #  erg s
@@ -23,8 +23,6 @@ alphafine = 1./(137.035999)
 e2 = alphafine*hplanck*c/2./np.pi   # erg * cm
 hnu_0 = 13.6    # eV
 sigmaH = 7.91e-18   # ion cross section, cm^2
-cutoff = 10.    # log cutoff in integrals
-num_k = 1000    # num of k values in k integrals, set 1000 for dndlnM plot
 
 # Units
 nu_over_ev = 1.60217646e-12/hplanck # =2.417e14, 1 eV = nu_over_ev Hz
@@ -61,8 +59,7 @@ nu21 = 1420.4e6    # hyperfine frecuency Hz
 f12 = 0.416     # f12 for Lymanalpha
 nualpha = 2.47e15   # Hz
 Aalpha = 6.25e8 # s^-1
-tauGP = 3.*c**3.*Aalpha*n0_h/(8.*np.pi*nualpha**3.*H0*np.sqrt(Omega_m))*10.**(3./2.)    # tau_GP at z=10 and x_HI=1, da mal!
-#print "{:.1e}".format(tauGP), "{:.1e}".format(2.7e4*10.**(3./2.))
+tauGP = 3.*c**3.*Aalpha*n0_h/(8.*np.pi*nualpha**3.*H0*np.sqrt(Omega_m))*10.**(3./2.)    # tau_GP at z=10 and x_HI=1, wrong value? not used
 
 
 #----- Precision Constants -----#
@@ -73,3 +70,7 @@ nummass = 50
 numtau = 50
 # Number of bins of the impact parameter
 numalf = 300
+# log cutoff in integrals
+cutoff = 10.
+# num of k values in k integrals, set 1000 for dndlnM plot
+num_k = 1000

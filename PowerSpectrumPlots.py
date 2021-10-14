@@ -9,8 +9,8 @@ from Source.functions import *
 
 #--- POWER SPECTRUM PLOTS ---#
 
-plot_pow = 0
-plot_sigma = 0
+plot_pow = 1
+plot_sigma = 1
 plot_dndlnM = 1
 
 cols = ["c","m","b"]
@@ -28,6 +28,7 @@ fig_pow, (ax_pow) = plt.subplots(1,1)
 fig_sig, (ax_sig) = plt.subplots(1,1)
 fig_halo, (ax_halo) = plt.subplots(1,1)
 
+# Power spectrum plot
 if plot_pow==1:
 
     ax_pow.set_xlabel('$k \; [h/Mpc]$')
@@ -44,6 +45,7 @@ if plot_pow==1:
     ax_pow.set_title(r"$z=$"+str(z))
     fig_pow.savefig("Plots/powerspectrum.pdf", bbox_inches='tight')
 
+# Variance plot
 if plot_sigma==1:
 
     ax_sig.set_xlabel('$M \; [M_{\odot}]$')
@@ -57,6 +59,7 @@ if plot_sigma==1:
     ax_sig.set_title(r"$z=$"+str(z))
     fig_sig.savefig("Plots/sigma_pbh.pdf", bbox_inches='tight')
 
+# Halo mass function plot
 if plot_dndlnM==1:
 
     ax_halo.set_xlabel('$M \; [M_{sun}/h]$')
